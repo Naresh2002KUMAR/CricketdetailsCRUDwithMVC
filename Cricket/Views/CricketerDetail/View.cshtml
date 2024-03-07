@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Cricket.Models.Cricketer>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>Cricketer Details</h1>
+
+<p>
+    <a asp-action="Create">Create New Player</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CricketerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CricketerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalODI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fifties)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hundreds)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CricketerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CricketerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalODI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fifties)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hundreds)
+            </td>
+            <td>
+                <a asp-action="Create" asp-route-id="@item.CricketerId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CricketerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CricketerId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

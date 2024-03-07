@@ -1,0 +1,188 @@
+﻿@model Cricket.Models.Cricketer
+
+@{
+    ViewData["Title"] = "Create";
+}@{
+    var player = "Create";
+
+    if (Model.CricketerId > 0)
+    {
+        player = "Update";
+    }
+}
+
+<h1>@player</h1>
+
+<h4>Cricketer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="CricketerId" id="CricketerId" type="hidden" class="form-control" />
+
+                <label asp-for="CricketerName" class="control-label"></label>
+                <input asp-for="CricketerName" class="form-control" />
+                <span asp-validation-for="CricketerName" id="cricketername" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalODI" class="control-label"></label>
+                <input asp-for="TotalODI" class="form-control" />
+                <span asp-validation-for="TotalODI" id="cricketerodi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalScore" class="control-label"></label>
+                <input asp-for="TotalScore" class="form-control" />
+                <span asp-validation-for="TotalScore" id="cricketerscore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fifties" class="control-label"></label>
+                <input asp-for="Fifties" class="form-control" />
+                <span asp-validation-for="Fifties" id="cricketerfifty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hundreds" class="control-label"></label>
+                <input asp-for="Hundreds" class="form-control" />
+                <span asp-validation-for="Hundreds" id="cricketerhundred" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="@player" id="create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#create").click(function () {
+
+                var correction = validation();
+                if (correction == true) {
+                    debugger;
+
+                    var cricketerid = document.getElementById("CricketerId").value;
+                    var cricketername = document.getElementById("CricketerName").value;
+                    var totalodi = document.getElementById("TotalODI").value;
+                    var totalscore = document.getElementById("TotalScore").value;
+                    var fifty = document.getElementById("Fifties").value;
+                    var hundred = document.getElementById("Hundreds").value;
+
+                    var AddPlayer = {
+                        "CricketerId": cricketerid,
+                        "CricketerName": cricketername,
+                        "TotalODI": totalodi,
+                        "TotalScore":totalscore,
+                        "Fifties": fifty,
+                        "Hundreds": hundred
+                    };
+
+                    $.ajax({
+                            type: "POST",
+                            url: "/CricketerDetail/Create",
+                            data: AddPlayer,
+                            success: function (data) {
+
+                                alert("Successfully Saved Player");
+                                window.location.href = "/cricketerdetail/index";
+
+                            },
+                            error: function (ex) {
+                                alert("Error Occured");
+                            }
+                        });
+
+                }
+            });
+
+
+        });
+        
+
+        function validation() {
+            debugger;
+
+            var cricketername = document.getElementById("CricketerName").value;
+
+            correction = true;
+
+            var spname = document.getElementById("cricketername");
+            if (cricketername == "" || cricketername.length == 0) {
+                spname.innerText = "Please Enter Player Name";
+                spname.style.display = "block";
+
+                correction = false;
+            }
+            else {
+                spname.style.display = "none";
+            }
+
+            var totalodi = document.getElementById("TotalODI").value;
+
+
+            var sptotalodi = document.getElementById("cricketerodi");
+            if (totalodi == "" || totalodi.length == 0 || totalodi==0 ) {
+                sptotalodi.innerText = "Please Enter Total ODI Played";
+                sptotalodi.style.display = "block";
+
+                correction = false;
+            }
+            else {
+                sptotalodi.style.display = "none";
+            }
+
+            var totalscore = document.getElementById("TotalScore").value;
+
+
+            var sptotalscore = document.getElementById("cricketerscore");
+            if (totalscore == "" || totalscore.length == 0 || totalscore==0) {
+                sptotalscore.innerText = "Please Enter Player TotalScore";
+                sptotalscore.style.display = "block";
+
+                correction = false;
+            }
+            else {
+                sptotalscore.style.display = "none";
+            }
+
+            var fifties = document.getElementById("Fifties").value;
+
+
+            var spfifties = document.getElementById("cricketerfifty");
+            if (fifties == "" || fifties.length == 0) {
+                spfifties.innerText = "Please Enter Player Fifties";
+                spfifties.style.display = "block";
+
+                correction = false;
+            }
+            else {
+                spfifties.style.display = "none";
+            }
+
+            var hundred = document.getElementById("Hundreds").value;
+
+
+            var sphundred = document.getElementById("cricketerhundred");
+            if (hundred == "" || hundred.length == 0) {
+                sphundred.innerText = "Please Enter Player Hundreds";
+                sphundred.style.display = "block";
+
+                correction = false;
+            }
+            else {
+                sphundred.style.display = "none";
+            }
+
+
+
+            return correction;
+        }
+    </script>
+}
